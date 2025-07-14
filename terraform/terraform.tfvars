@@ -1,6 +1,6 @@
 # ## Common variables for project webhost
 project  = "webhost"
-p_short  = "web"
+p_short  = "host"
 location = "centralindia"
 l_short  = "inc"
 vm_user  = "azureuser"
