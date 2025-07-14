@@ -8,5 +8,10 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    netapp {
+      delete_backups_on_backup_vault_destroy = true
+      prevent_volume_destruction             = false
+    }
+  }
 }
