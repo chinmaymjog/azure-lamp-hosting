@@ -56,10 +56,10 @@ done
 run_command "update-initramfs -u" "Update initramfs after kernel module changes"
 
 start_section "Package Management"
-run_command "apt update && apt upgrade -y" "Update and upgrade packages"
+run_command "export DEBIAN_FRONTEND=noninteractive && apt update && apt upgrade -y" "Update and upgrade packages"
 
 start_section "Mandatory Access Control"
-run_command "DEBIAN_FRONTEND=noninteractive apt install -y apparmor apparmor-utils" "Install AppArmor"
+run_command "apt install -y apparmor apparmor-utils" "Install AppArmor"
 
 start_section "Configure Additional Process Hardening"
 run_command "echo '2' > /proc/sys/kernel/randomize_va_space" "Enable ASLR"
