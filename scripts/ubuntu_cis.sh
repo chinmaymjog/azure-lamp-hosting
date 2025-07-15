@@ -1,4 +1,5 @@
 #!/bin/bash
+# Inspired by https://github.com/AndyHS-506/Ubuntu-Hardening
 
 LOG_DIR="/var/cis"
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
@@ -58,7 +59,7 @@ start_section "Package Management"
 run_command "apt update && apt upgrade -y" "Update and upgrade packages"
 
 start_section "Mandatory Access Control"
-run_command "apt install -y apparmor apparmor-utils" "Install AppArmor"
+run_command "DEBIAN_FRONTEND=noninteractive apt install -y apparmor apparmor-utils" "Install AppArmor"
 
 start_section "Configure Additional Process Hardening"
 run_command "echo '2' > /proc/sys/kernel/randomize_va_space" "Enable ASLR"
