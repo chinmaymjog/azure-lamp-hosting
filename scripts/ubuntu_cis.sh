@@ -152,10 +152,10 @@ Protocol 2
 LogLevel VERBOSE
 PermitRootLogin no
 PermitEmptyPasswords no
-PasswordAuthentication yes
+# PasswordAuthentication yes # Uncomment to allow password authentication for SFTP
 ChallengeResponseAuthentication no
 UsePAM yes
-AuthenticationMethods publickey
+AuthenticationMethods publickey # Comment this line to allow password authentication
 KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org
 Ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com
 MACs hmac-sha2-512,hmac-sha2-256
