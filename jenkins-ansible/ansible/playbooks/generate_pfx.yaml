@@ -1,0 +1,53 @@
+---
+- name: Upload certificate & generate pfx
+  hosts: localhost
+  become: true
+  var_files:
+    - var_files/web_vars.yml
+
+  tasks:
+    - name: Copy .cert
+      ansible.builtin.copy:
+        dest: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.crt.pem
+        content: "{{ crt }}"
+      when: project == "C4E-Project-SSL"
+
+    - name: Copy .cert
+      ansible.builtin.copy:
+        dest: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.crt.pem
+        content: "{{ crt }}"
+      when: project == "CX-Project-SSL"
+
+    - name: Copy .ca
+      ansible.builtin.copy:
+        dest: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.ca.pem
+        content: "{{ ca }}"
+      when: project == "C4E-Project-SSL"
+
+    - name: Copy .cert
+      ansible.builtin.copy:
+        dest: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.ca.pem
+        content: "{{ ca }}"
+      when: project == "CX-Project-SSL"
+
+    - name: Generate pfx
+      community.crypto.openssl_pkcs12:
+        action: export
+        path: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.pfx
+        friendly_name: "{{ SiteName_date }}"
+        privatekey_path: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.key.pem
+        certificate_path: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.crt.pem
+        other_certificates: /home/webadmin/C4E-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.ca.pem
+        state: present
+      when: project == "C4E-Project-SSL"
+
+    - name: Generate pfx
+      community.crypto.openssl_pkcs12:
+        action: export
+        path: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.pfx
+        friendly_name: "{{ SiteName_date }}"
+        privatekey_path: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.key.pem
+        certificate_path: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.crt.pem
+        other_certificates: /home/webadmin/CX-Project-SSL/csr/{{ DirName }}/{{ SiteName_date }}.ca.pem
+        state: present
+      when: project == "CX-Project-SSL"

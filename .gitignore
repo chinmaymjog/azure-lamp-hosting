@@ -45,6 +45,7 @@ azureuser_rsa*
 # Ignore Terraform lock file
 .terraform.lock.hcl
 
-Notes.md
+notes.md
 ToDo.md
 .vscode/
+.DS_Store

@@ -1,0 +1,39 @@
+---
+- name: Database dump for specific site
+  hosts: localhost
+  become: true
+  vars_files:
+    - var_files/database_vars.yml
+
+  tasks:
+    - name: Set environment-specific database variables
+      set_fact:
+        db_host: "{{ lookup('vars', environment).db_host }}"
+        db_port: "{{ lookup('vars', environment).db_port | default(3306) }}"
+        db_user: "{{ lookup('vars', environment).db_user }}"
+        db_pass: "{{ lookup('vars', environment).db_pass }}"
+
+    - name: Check if site exists in index file
+      shell: grep {{ site_url }} {{ SITE_LIST_PATH }}/{{ web_environment }}_php_site_index.txt | awk '{ print $6 }'
+      register: db_name
+
+    - name: Site not exists
+      debug:
+        msg: "Database for {{ site_url }} doesn't exists. Hence skipping the below tasks"
+      when: db_name.stdout == ""
+
+    - name: Site exists
+      debug:
+        msg: "Database name for {{ site_url }} is: {{ db_name.stdout }}"
+      when: db_name.stdout != ""
+
+    - name: Create Directories if the site exists
+      file:
+        path: "{{ DB_BACKUP_PATH }}/{{ web_environment }}"
+        state: directory
+        mode: "0700"
+      when: db_name.stdout != ""
+
+    - name: Take Backup
+      shell: mysqldump --force --opt --skip-lock-tables -h {{ db_host }} -u {{ db_user }}  -p"{{ db_pass }}" --databases {{ db_name.stdout }}| gzip > {{ DB_BACKUP_PATH }}/{{ web_environment }}/{{ db_name.stdout }}_{{ ansible_date_time.date }}.sql.gz
+      when: db_name.stdout != ""

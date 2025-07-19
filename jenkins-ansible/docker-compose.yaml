@@ -1,0 +1,19 @@
+services:
+  jenkins:
+    restart: unless-stopped
+    image: crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest
+    container_name: new-jenkins
+    volumes:
+      - ./jenkins-home:/var/lib/jenkins:rw
+      - ./ansible:/etc/ansible:rw
+      - ./site-data:/site-data:rw
+      - /backup:/backup:rw
+      - ~/.ssh:/root/.ssh:ro
+    ports:
+      - 8082:8080
+    networks:
+      - shared
+
+networks:
+  shared:
+    external: true

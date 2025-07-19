@@ -1,0 +1,29 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: "1"
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+    
+stages:
+  - build
+
+jenkins-build:
+  stage: build
+  script:
+    - echo "Building Docker image with tag $tag"
+    - docker build --pull -t "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest" .
+    - docker push "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest"
+    - echo "Building Docker image with version tag $CI_PIPELINE_ID"
+    - docker build --pull -t "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:$CI_PIPELINE_ID" .
+    - docker push "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:$CI_PIPELINE_ID"
+  tags:
+    - c4e
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: never
