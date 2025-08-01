@@ -40,7 +40,7 @@ terraform.rc
 .env
 
 # Ignore SSH keys that may be used for accessing remote resources
-azureuser_rsa*
+webadmin_rsa*
 
 # Ignore Terraform lock file
 .terraform.lock.hcl
