@@ -39,7 +39,7 @@ PermitEmptyPasswords no
 MaxAuthTries 3
 ClientAliveInterval 300
 ClientAliveCountMax 2
-AllowUsers azureuser
+AllowUsers webadmin
 X11Forwarding no
 Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
