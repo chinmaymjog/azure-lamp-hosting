@@ -22,6 +22,10 @@ variable "l_short" {
   description = "Location short name"
 }
 
+variable "zone" {
+  description = "Preferred availability zone"
+}
+
 variable "vnet_space" {
   description = "Address space for vnet"
 }

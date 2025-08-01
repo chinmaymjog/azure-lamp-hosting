@@ -113,6 +113,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                = "vm-${var.p_short}-${var.e_short}-${var.l_short}"
   resource_group_name = azurerm_resource_group.hub.name
   location            = var.location
+  zone                = var.zone
   size                = var.bastion_size
   admin_username      = var.vm_user
   network_interface_ids = [
@@ -123,7 +124,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
   admin_ssh_key {
     username   = var.vm_user
-    public_key = file("${path.root}/azureuser_rsa.pub")
+    public_key = file("${path.root}/webadmin_rsa.pub")
   }
 
   os_disk {
@@ -143,13 +144,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
 resource "null_resource" "key_upload" {
   provisioner "file" {
-    source      = "${path.root}/azureuser_rsa"
+    source      = "${path.root}/webadmin_rsa"
     destination = "/home/${var.vm_user}/.ssh/id_rsa"
 
     connection {
       type        = "ssh"
       host        = azurerm_linux_virtual_machine.vm.public_ip_address
-      private_key = file("${path.root}/azureuser_rsa")
+      private_key = file("${path.root}/webadmin_rsa")
       user        = var.vm_user
     }
   }
@@ -158,6 +159,7 @@ resource "null_resource" "key_upload" {
 resource "azurerm_managed_disk" "data-vm" {
   name                 = "diskvm${var.p_short}${var.e_short}${var.l_short}"
   location             = var.location
+  zone                 = var.zone
   resource_group_name  = azurerm_resource_group.hub.name
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
@@ -321,6 +323,6 @@ resource "azurerm_key_vault" "kv" {
 
 resource "azurerm_key_vault_secret" "key" {
   name         = "sshkey"
-  value        = replace(file("${path.root}/azureuser_rsa"), "/\n/", "\n")
+  value        = replace(file("${path.root}/webadmin_rsa"), "/\n/", "\n")
   key_vault_id = azurerm_key_vault.kv.id
 }

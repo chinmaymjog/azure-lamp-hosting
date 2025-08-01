@@ -213,6 +213,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   name                = "web-${var.p_short}-${var.e_short}-${var.l_short}-${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
+  zone                = var.zone
   size                = var.webvm_size
   admin_username      = var.vm_user
   network_interface_ids = [
@@ -223,7 +224,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   }
   admin_ssh_key {
     username   = var.vm_user
-    public_key = file("${path.root}/azureuser_rsa.pub")
+    public_key = file("${path.root}/webadmin_rsa.pub")
   }
 
   os_disk {
@@ -245,6 +246,7 @@ resource "azurerm_managed_disk" "data" {
   count                = var.webvm_count
   name                 = "diskweb${var.p_short}${var.e_short}${var.l_short}${count.index}"
   location             = var.location
+  zone                 = var.zone
   resource_group_name  = azurerm_resource_group.rg.name
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
@@ -295,7 +297,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
 resource "azurerm_netapp_volume" "netapp_volume" {
   name                = "volume-${var.p_short}-${var.e_short}-${var.l_short}"
   location            = var.location
-  zone                = "1"
+  zone                = var.zone
   resource_group_name = var.hub_rg_name
   account_name        = var.netapp_account_name
   pool_name           = var.netapp_pool_name

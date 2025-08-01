@@ -15,6 +15,9 @@ variable "l_short" {
   description = "Location short name"
 }
 
+variable "preferred_zone" {
+  description = "Preferred availability zone"
+}
 # variable "env" {
 #   description = "Define environment to deploy"
 # }

@@ -5,6 +5,7 @@ module "hub" {
   p_short               = var.p_short
   location              = var.location
   l_short               = var.l_short
+  zone                  = var.preferred_zone
   env                   = "hub"
   e_short               = "hub"
   vnet_space            = var.hub_vnet_space
@@ -25,6 +26,7 @@ module "preprod-web" {
   p_short             = var.p_short
   location            = var.location
   l_short             = var.l_short
+  zone                = var.preferred_zone
   env                 = "Preproduction"
   e_short             = "pprd"
   vnet_space          = var.preprod_vnet_space
@@ -64,6 +66,7 @@ module "prod-web" {
   p_short             = var.p_short
   location            = var.location
   l_short             = var.l_short
+  zone                = var.preferred_zone
   env                 = "Production"
   e_short             = "prd"
   vnet_space          = var.prod_vnet_space
