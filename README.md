@@ -1,7 +1,5 @@
 # Shared Hosting Platform on Azure
 
-![Architecture Diagram](./images/net_diag.png)
-
 ## 🔧 Introduction
 
 This project showcases the design and implementation of a **Shared Hosting Platform on Azure**. The core objective was to host PHP-based CMS applications (e.g., WordPress) on a **LAMP stack** with support for **multiple PHP versions** and **end-to-end automation**.

@@ -4,6 +4,8 @@
 
 This part covers the Azure infrastructure that powers the shared hosting platform. The focus is on a scalable, secure, and efficient design to support multi-tenant PHP-based applications (like WordPress) hosted on a LAMP stack.
 
+![Architecture Diagram](../images/net_diag.png)
+
 ---
 
 ## 🧱 Topics Covered
