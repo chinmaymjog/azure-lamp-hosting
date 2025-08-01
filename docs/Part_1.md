@@ -77,12 +77,12 @@ All components except Front Door are in private subnets—no direct internet exp
 
 ```mermaid
 flowchart TD
-    User[User (Internet)] --> FrontDoor[Azure Front Door]
-    FrontDoor --> LoadBalancer[Azure Load Balancer]
-    LoadBalancer --> VM1[Web Server VM1]
-    LoadBalancer --> VM2[Web Server VM2]
-    VM1 --> NetApp[Azure NetApp Files]
-    VM2 --> NetApp
-    VM1 --> DB[Azure MySQL]
-    VM2 --> DB
+  User["User (Internet)"] --> FrontDoor[Azure Front Door]
+  FrontDoor --> LoadBalancer[Azure Load Balancer]
+  LoadBalancer --> VM1[Web Server VM1]
+  LoadBalancer --> VM2[Web Server VM2]
+  VM1 --> NetApp[Azure NetApp Files]
+  VM2 --> NetApp
+  VM1 --> DB[Azure MySQL]
+  VM2 --> DB
 ```
