@@ -1,52 +1,88 @@
 # Part 1: Shared Hosting Platform Architecture
-## Introduction
-We’ll start by exploring the Azure infrastructure that forms the backbone of our hosting platform. I’ll explain the architectural design, the resources involved, and the key decisions made to ensure a secure and scalable environment.
 
-## Topics covered
+## 📘 Introduction
+
+This part covers the Azure infrastructure that powers the shared hosting platform. The focus is on a scalable, secure, and efficient design to support multi-tenant PHP-based applications (like WordPress) hosted on a LAMP stack.
+
+---
+
+## 🧱 Topics Covered
+
 1. [Architecture Overview](#architecture-overview)
 2. [Resource Considerations](#resource-considerations)
 3. [Connection Flow](#connection-flow)
 
-## Architecture Overview
-This architecture is based on the **Hub-and-Spoke Model**.
+---
 
-**Hub**: It contains shared Azure resources/services that spoke networks can utilize. It includes a Bastion Host, Azure Front Door, Azure NetApp Files, and Key Vault.
+## 🏗️ Architecture Overview
 
-**Spoke**: The spokes are individual VNets that connect to the hub. Each spoke can represent a different environment:
-- **Production environment VNet**: Resources for live applications.
-- **Preproduction environment VNet**: Resources for staging and quality assurance.
+The solution is built on a **Hub-and-Spoke Network Topology**:
 
-### Key Benefits:
-- **Isolation and Security**: Each spoke network is isolated, reducing the risk of lateral movement in case of a security breach.
-- **Centralized Management**: Easier to manage and maintain network policies, firewalls, and monitoring in a single hub.
-- **Scalability**: Simplifies adding new VNets (spokes) to the architecture without impacting existing ones.
-- **Cost Efficiency**: Allows shared services to be centralized, reducing redundancy and cost.
+### 🔹 Hub Network
 
-## Resource Considerations
+Contains shared services used by all environments:
 
-### Traffic Management & Security
-- **Azure Front Door** handles incoming web traffic, providing load balancing, SSL offloading, and Web Application Firewall (WAF) capabilities. It ensures efficient routing based on URL paths.
-- **Azure Load Balancer** distributes requests across multiple web servers to ensure high availability and scalability.
-- **Network Security Group (NSG)** controls inbound and outbound traffic. Only ports 80 (HTTP) and 443 (HTTPS) are open to the internet.
+- **Azure Bastion** – Secure VM access
+- **Azure Front Door** – SSL termination, global traffic management, WAF
+- **Azure NetApp Files** – Shared storage across VMs
+- **Azure Key Vault** – Secret and certificate management
 
-### Compute & Storage
-- **Web Servers**: Two Ubuntu 24.04 virtual machines (VMs) host the application using Apache. The setup allows easy scaling by adding more web servers in the future.
-- **Persistent Storage**: Azure NetApp Files is used for high-performance, shared storage across web servers, supporting real-time read/write access.
-- **Managed Database**: Azure Database for MySQL provides a highly available, scalable, and fully managed database service, including built-in backups.
+### 🔸 Spoke Networks
 
-### Security & Secrets Management
-- **Azure Key Vault** securely manages secrets, encryption keys, and SSL certificates, which are accessed by Azure Front Door for secure HTTPS traffic.
+Isolated VNets for:
 
-### Network Isolation
-All backend components (VMs, Database, Storage, Key Vault) reside within a Virtual Network (VNet) to ensure secure communication while being protected from the public internet.
+- **Production** – Live hosted websites
+- **Preproduction** – Staging and testing workloads
 
-## Connection Flow
-1. Users access the application over the internet.
-2. Azure Front Door routes traffic to the Azure Load Balancer.
-3. The Load Balancer distributes traffic across the web servers.
-4. The Apache web servers serve application files stored on Azure NetApp Files.
-5. The application interacts with Azure Database for MySQL for database operations.
+> 🛡️ **Key Advantages:**
 
-This architecture ensures high availability, scalability, and security while leveraging Azure’s managed services for efficient hosting.
+- Network isolation between environments
+- Centralized monitoring and access control
+- Easy to scale by adding new spokes
+- Cost savings via shared core services
 
-🚀 Stay tuned for the next part, where we’ll dive into Terraform for Infrastructure Deployment!
+---
+
+## 🔧 Resource Considerations
+
+### 🔐 Traffic & Security
+
+- **Azure Front Door**: Routes public traffic, handles SSL, and enforces WAF rules
+- **Azure Load Balancer**: Distributes traffic to backend VMs
+- **NSGs**: Allow only ports 80/443 from internet, strict rules otherwise
+
+### 🖥️ Compute & Storage
+
+- **VMs (Ubuntu 24.04)**: Host Apache for PHP apps
+- **Azure NetApp Files**: High-performance, shared NFS storage
+- **Azure Database for MySQL**: Managed DB service with backups and scaling
+
+### 🔑 Secrets Management
+
+- **Azure Key Vault**: Stores app secrets and TLS certificates, integrated with Front Door and VMs
+
+### 🔒 Network Isolation
+
+All components except Front Door are in private subnets—no direct internet exposure.
+
+---
+
+## 🔁 Connection Flow
+
+1. **User** accesses the app using HTTPS.
+2. **Azure Front Door** routes the request based on URL path.
+3. **Azure Load Balancer** sends the request to available VMs.
+4. **Web Servers (Apache)** serve app files from Azure NetApp Files.
+5. **App** connects to Azure Database for MySQL.
+
+```mermaid
+flowchart TD
+    User[User (Internet)] --> FrontDoor[Azure Front Door]
+    FrontDoor --> LoadBalancer[Azure Load Balancer]
+    LoadBalancer --> VM1[Web Server VM1]
+    LoadBalancer --> VM2[Web Server VM2]
+    VM1 --> NetApp[Azure NetApp Files]
+    VM2 --> NetApp
+    VM1 --> DB[Azure MySQL]
+    VM2 --> DB
+```
