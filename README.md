@@ -21,10 +21,10 @@ This project is structured into multiple parts, each with its own GitHub directo
 ### 📘 Completed Modules
 
 - [Part 1: Shared Hosting Platform Architecture](./docs/Part_1.md)
+- [Part 2: Terraform – Deploying Azure Infrastructure](./docs/Part_2.md)
 
 ### ⏳ Upcoming Modules
 
-- [Part 2: Terraform – Deploying Azure Infrastructure](#)
 - [Part 3: Bash Scripts – Server Preparation Guide](#)
 - [Part 4: Ansible – Web and Database Server Configuration](#)
 - [Part 5: Jenkins – Admin Portal for Hosting Management](#)
