@@ -36,10 +36,10 @@ terraform/
 Set Azure credentials in `.env` file:
 
 ```env
-ARM_CLIENT_ID=xxxxx
-ARM_CLIENT_SECRET=xxxxx
-ARM_SUBSCRIPTION_ID=xxxxx
-ARM_TENANT_ID=xxxxx
+export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+export ARM_CLIENT_SECRET="12345678-0000-0000-0000-000000000000"
+export ARM_TENANT_ID="10000000-0000-0000-0000-000000000000"
+export ARM_SUBSCRIPTION_ID="20000000-0000-0000-0000-000000000000"
 ```
 
 Then run:
@@ -57,13 +57,45 @@ source .env
 Edit `terraform.tfvars` to suit your project. Sample values:
 
 ```hcl
-project        = "webhost"
-p_short        = "host"
-location       = "centralindia"
-l_short        = "inc"
-preferred_zone = "1"
-vm_user        = "webadmin"
-ip_allow       = ["<your-public-ip>"]
+## Common Variables for Project: webhost
+project             = "webhost"
+p_short             = "host"
+location            = "centralindia"
+l_short             = "inc"
+preferred_zone      = "1"                        # Preferred Availability Zone (for VMs & NetApp volumes)
+vm_user             = "webadmin"
+ip_allow            = ["152.58.XX.XX", "X.X.X.X"] # IP(s) to whitelist for access
+
+## Hub Environment Configuration
+hub_vnet_space        = ["10.0.0.0/24"]
+hub_snet_web          = ["10.0.0.0/26"]
+bastion_size          = "Standard_B2s"           # Bastion VM SKU
+bastion_osdisk        = 64                       # Bastion OS disk (in GB)
+bastion_datadisk      = 64                       # Bastion Data disk (in GB)
+netapp_sku            = "Standard"               # NetApp Storage SKU
+netapp_pool_size_intb = 1                        # NetApp Pool size (in TB)
+
+## Web Environment (Shared Across PreProd & Prod)
+webvm_size            = "Standard_B2s"           # Web Server VM SKU
+webvm_count           = "2"                      # Number of Web VMs
+webvm_osdisk          = 64                       # OS Disk Size (in GB)
+webvm_datadisk        = 64                       # Data Disk Size (in GB)
+dbsku                 = "GP_Standard_D2ads_v5"   # Azure MySQL Flexible Server SKU
+dbsize                = 20                       # Database storage (in GB)
+netapp_volume_sku     = "Standard"
+storage_quota_in_gb   = 100                      # NetApp Volume quota (in GB)
+
+## PreProduction Environment Network
+preprod_vnet_space    = ["10.0.2.0/24"]
+preprod_snet_web      = ["10.0.2.0/26"]
+preprod_snet_db       = ["10.0.2.64/26"]
+preprod_snet_netapp   = ["10.0.2.128/26"]
+
+## Production Environment Network
+prod_vnet_space       = ["10.0.1.0/24"]
+prod_snet_web         = ["10.0.1.0/26"]
+prod_snet_db          = ["10.0.1.64/26"]
+prod_snet_netapp      = ["10.0.1.128/26"]
 ```
 
 > ⚠️ **Zone Awareness**
@@ -110,17 +142,15 @@ Hub Resource Group Name         = rg-host-hub-inc
 Front Door Name                 = fd-host-hub-inc
 NetApp Account Name             = netapp-host-hub-inc
 Key Vault Name                  = kv-host-hub-inc
-Bastion VM Public IP            = 135.235.171.0
+Bastion VM Public IP            = XX.XX.XX.XX
 Bastion VM Private IP           = 10.0.0.4
-
 Production Resource Group Name  = rg-host-prd-inc
-Production Load Balancer IP     = 135.235.171.22
+Production Load Balancer IP     = XX.XX.XX.XX
 Production Web Server IPs:
   web-host-prd-inc-0            = 10.0.1.5
   web-host-prd-inc-1            = 10.0.1.4
-
 Preproduction Resource Group    = rg-host-pprd-inc
-Preproduction Load Balancer IP  = 52.172.195.226
+Preproduction Load Balancer IP  = XX.XX.XX.XX
 Preproduction Web Server IPs:
   web-host-pprd-inc-0           = 10.0.2.4
   web-host-pprd-inc-1           = 10.0.2.5
