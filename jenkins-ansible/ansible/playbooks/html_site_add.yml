@@ -122,5 +122,5 @@
       vars:
         site_user: "{{ username.stdout }}"
       ansible.builtin.shell: |
-        echo {{ site_url }}'\t'{{ site_user }} >> ${{ SITE_LIST_PATH }}/site_index.txt
+        echo {{ site_url }}'\t'{{ site_user }} >> {{ SITE_LIST_PATH }}/site_index.txt
       when: sites_available.stat.exists == False

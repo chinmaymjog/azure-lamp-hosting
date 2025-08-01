@@ -2,6 +2,8 @@
 - name: Enable PHP site
   hosts: "{{ web_environment }}"
   become: true
+  vars_files:
+    - var_files/web_vars.yml
 
   tasks:
     - name: Enable site
@@ -14,7 +16,7 @@
       delegate_facts: true
       run_once: true
       ansible.builtin.shell: |
-        php_version=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $4}' ${{ SITE_LIST_PATH }}/site_index.txt)      
+        php_version=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $4}' {{ SITE_LIST_PATH }}/site_index.txt)      
         echo $php_version
       register: php_version
       when:
@@ -22,9 +24,9 @@
 
     - name: Start PHP-FPM service for {{ site_url }}
       vars:
-        site_php_version: { { php_version.stdout } }
+        site_php_version: "{{ php_version.stdout }}"
       ansible.builtin.systemd:
-        name: "{{ php_version }}-fpm@{{ site_url }}"
+        name: "{{ site_php_version }}-fpm@{{ site_url }}"
         state: started
       when:
         - site_url != ""

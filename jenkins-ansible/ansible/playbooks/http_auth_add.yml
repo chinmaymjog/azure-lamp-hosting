@@ -6,12 +6,23 @@
     - var_files/web_vars.yml
 
   tasks:
+    - name: Set site user
+      delegate_to: localhost
+      delegate_facts: true
+      run_once: true
+      ansible.builtin.shell: |
+        user=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $2}' {{ SITE_LIST_PATH }}/site_index.txt)      
+        echo $user
+      register: site_main_user
+      when:
+        - site_url != ""
+
     - name: Set site auth user
       delegate_to: localhost
       delegate_facts: true
       run_once: true
       ansible.builtin.shell: |
-        user=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $2}' ${{ SITE_LIST_PATH }}/site_index.txt)      
+        user=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $2}' {{ SITE_LIST_PATH }}/site_index.txt)      
         echo HTTP_$user | tr [:lower:] [:upper:]
       register: site_auth_user
       when:
@@ -77,7 +88,8 @@
 
     - name: adding auth VHOST config
       vars:
-        site_user: "{{ site_auth_user.stdout }}"
+        site_user: "{{ site_main_user.stdout }}"
+        site_authuser: "{{ site_auth_user.stdout }}"
       ansible.builtin.template:
         src: templates/http_auth.j2
         dest: "{{ AUTH_AVAILABLE }}/{{ site_url }}.conf"
@@ -92,7 +104,7 @@
       delegate_facts: true
       run_once: true
       ansible.builtin.shell: |
-        echo -e {{ site_url }}'\t'{{ site_auth_user.stdout }}'\t'{{ site_auth_pass.stdout }} >> ${{ SITE_LIST_PATH }}/http_auth_index.txt
+        echo {{ site_url }}'\t'{{ site_auth_user.stdout }}'\t'{{ site_auth_pass.stdout }} >> {{ SITE_LIST_PATH }}/http_auth_index.txt
       when:
         - sites_available.stat.exists == True
         - auth_files_state.stat.exists == False

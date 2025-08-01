@@ -2,6 +2,8 @@
 - name: Enable HTTP Auth
   hosts: "{{ web_environment }}"
   become: true
+  vars_files:
+    - var_files/web_vars.yml
 
   tasks:
     - name: Checking if config file exist in auth-available

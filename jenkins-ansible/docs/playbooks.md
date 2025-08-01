@@ -64,7 +64,7 @@ fi
 # Handle PHP site deployment
 if [ "${site_type}" = "php" ]; then
 echo Deleting php ${php_version} site ${site_url} on ${environment}
-    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_remove.yml
+    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" --vault-password-file /etc/ansible/vault.txt /etc/ansible/playbooks/php_site_remove.yml
 fi
 ```
 
@@ -237,7 +237,7 @@ fi
 # Handle PHP site deployment
 if [ "${site_type}" = "php" ]; then
 echo Adding php ${php_version} site ${site_url} on ${environment}
-    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_add.yml
+    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" --vault-password-file /etc/ansible/vault.txt /etc/ansible/playbooks/php_site_add.yml
 fi
 ```
 
@@ -269,7 +269,7 @@ fi
 # Handle PHP site
 if [ "${site_type}" = "php" ]; then
 echo Adding php ${php_version} site ${site_url} on ${environment}
-    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_disable.yml
+    sudo ansible-playbook --extra-vars "site_url=${site_url} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_disable.yml
 fi
 ```
 
@@ -301,7 +301,7 @@ fi
 # Handle PHP site
 if [ "${site_type}" = "php" ]; then
 echo Adding php ${php_version} site ${site_url} on ${environment}
-    sudo ansible-playbook --extra-vars "site_url=${site_url} php_version=${php_version} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_enable.yml
+    sudo ansible-playbook --extra-vars "site_url=${site_url} web_environment=${web_environment}" /etc/ansible/playbooks/php_site_enable.yml
 fi
 ```
 

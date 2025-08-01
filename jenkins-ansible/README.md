@@ -12,7 +12,7 @@ The goal is to offer a semi-automated, self-service platform for infrastructure 
 
 - [Installation](#installation)
 - [Jenkins Configuration](#jenkins-configuration)
-- [Playbooks](#playbooks)
+- [Ansible Playbooks](#ansible-playbooks)
 
 ## Installation
 
@@ -98,7 +98,7 @@ The job will execute a command similar to:
 sudo ansible-playbook --extra-vars "web_environment=preproduction" /etc/ansible/playbooks/ping.yml
 ```
 
-## Playbooks
+## Ansible Playbooks
 
 Below is a list of available playbooks and their corresponding Jenkins jobs, along with key configuration details like parameter types, Groovy scripts, and a brief description of each job.
 

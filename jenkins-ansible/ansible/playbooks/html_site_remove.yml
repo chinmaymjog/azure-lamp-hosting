@@ -35,7 +35,7 @@
       delegate_facts: true
       run_once: true
       ansible.builtin.shell: |
-        user=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $2}' ${{ SITE_LIST_PATH }}/site_index.txt)
+        user=$(awk -F'\t' -v s={{ site_url }} '{if ($1==s) print $2}' {{ SITE_LIST_PATH }}/site_index.txt)
         echo $user
       register: username
       when: sites_available.stat.exists == True
@@ -81,7 +81,7 @@
       delegate_facts: true
       run_once: true
       ansible.builtin.lineinfile:
-        path: ${{ SITE_LIST_PATH }}/site_index.txt
+        path: "{{ SITE_LIST_PATH }}/site_index.txt"
         regex: "^{{ site_url }}"
         state: absent
       when:

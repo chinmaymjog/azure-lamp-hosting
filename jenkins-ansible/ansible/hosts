@@ -1,7 +1,10 @@
-[prod_webservers]
-prod_web1 ansible_host=10.0.1.5
-prod_web2 ansible_host=10.0.1.4
+[local]
+localhost ansible_connection=local ansible_python_interpreter=/opt/ansible-venv/bin/python
 
-[preprod_webservers]
-preprod_web1 ansible_host=10.0.2.5
-preprod_web2 ansible_host=10.0.2.4
+[production]
+webvm-ubu-shrd01-prod-we-01 ansible_host=10.0.2.7
+webvm-ubu-shrd01-prod-we-02 ansible_host=10.0.2.8
+
+[preproduction]
+webvm-ubu-shrd01-preprod-we-01 ansible_host=10.0.3.10
+webvm-ubu-shrd01-preprod-we-02 ansible_host=10.0.3.11

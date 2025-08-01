@@ -189,7 +189,7 @@
         site_user: "{{ username.stdout }}"
         site_user_pass: "{{ password.stdout }}"
       ansible.builtin.shell: |
-        echo {{ site_url }}'\t'{{ site_user }}'\t'{{ site_user_pass }}'\t'{{ php_version }} >> ${{ SITE_LIST_PATH }}/site_index.txt
+        echo {{ site_url }}'\t'{{ site_user }}'\t'{{ site_user_pass }}'\t'{{ php_version }} >> {{ SITE_LIST_PATH }}/site_index.txt
       when: sites_available.stat.exists == False
 
     - name: Creating database
