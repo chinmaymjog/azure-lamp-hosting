@@ -16,11 +16,11 @@ jenkins-build:
   stage: build
   script:
     - echo "Building Docker image with tag $tag"
-    - docker build --pull -t "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest" .
-    - docker push "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest"
+    - docker build --pull -t "chinmaymjog/jenkins-ansible:latest" .
+    - docker push "chinmaymjog/jenkins-ansible:latest"
     - echo "Building Docker image with version tag $CI_PIPELINE_ID"
-    - docker build --pull -t "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:$CI_PIPELINE_ID" .
-    - docker push "crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:$CI_PIPELINE_ID"
+    - docker build --pull -t "chinmaymjog/jenkins-ansible:$CI_PIPELINE_ID" .
+    - docker push "chinmaymjog/jenkins-ansible:$CI_PIPELINE_ID"
   tags:
     - c4e
   rules:
