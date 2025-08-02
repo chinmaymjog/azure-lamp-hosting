@@ -29,4 +29,7 @@ echo "/dev/$vg_name/$lv_name $mount_point xfs defaults 0 0" | sudo tee -a /etc/f
 # Mount the volume
 sudo mount -a
 
+# Reload systemd
+sudo systemctl daemon-reload
+
 echo "LVM setup complete. $mount_point is ready to use."
