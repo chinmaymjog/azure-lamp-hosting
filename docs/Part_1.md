@@ -2,7 +2,7 @@
 
 ## 📘 Introduction
 
-This part covers the Azure infrastructure that powers the shared hosting platform. The focus is on a scalable, secure, and efficient design to support multi-tenant PHP-based applications (like WordPress) hosted on a LAMP stack.
+This section introduces the Azure infrastructure powering the shared hosting platform. The solution is designed to host multi-tenant PHP applications (e.g., WordPress) on a scalable, secure, and high-performance LAMP stack.
 
 ![Architecture Diagram](../images/net_diag.png)
 
@@ -18,30 +18,30 @@ This part covers the Azure infrastructure that powers the shared hosting platfor
 
 ## 🏗️ Architecture Overview
 
-The solution is built on a **Hub-and-Spoke Network Topology**:
+The platform follows a **Hub-and-Spoke Network Topology**, promoting modularity, isolation, and centralized control.
 
 ### 🔹 Hub Network
 
-Contains shared services used by all environments:
+Shared services accessible across environments:
 
-- **Azure Bastion** – Secure VM access
-- **Azure Front Door** – SSL termination, global traffic management, WAF
-- **Azure NetApp Files** – Shared storage across VMs
-- **Azure Key Vault** – Secret and certificate management
+- **Azure Bastion** – Secure SSH access to VMs
+- **Azure Front Door** – Global traffic routing, SSL termination, Web Application Firewall (WAF)
+- **Azure NetApp Files** – Centralized high-speed storage for web content
+- **Azure Key Vault** – Centralized secrets and certificate management
 
 ### 🔸 Spoke Networks
 
-Isolated VNets for:
+Isolated VNets tailored to specific environments:
 
-- **Production** – Live hosted websites
-- **Preproduction** – Staging and testing workloads
+- **Production** – Hosts live websites
+- **Preproduction** – Used for staging, testing, and QA
 
-> 🛡️ **Key Advantages:**
-
-- Network isolation between environments
-- Centralized monitoring and access control
-- Easy to scale by adding new spokes
-- Cost savings via shared core services
+> 🛡️ **Why Hub-and-Spoke?**
+>
+> - Strong environment isolation
+> - Centralized security and logging
+> - Simplified network expansion
+> - Shared services reduce duplication and cost
 
 ---
 
@@ -49,33 +49,34 @@ Isolated VNets for:
 
 ### 🔐 Traffic & Security
 
-- **Azure Front Door**: Routes public traffic, handles SSL, and enforces WAF rules
-- **Azure Load Balancer**: Distributes traffic to backend VMs
-- **NSGs**: Allow only ports 80/443 from internet, strict rules otherwise
+- **Azure Front Door** – Entry point for users, handles SSL/TLS and WAF policies
+- **Azure Load Balancer** – Distributes traffic across web servers for high availability
+- **Network Security Groups (NSGs)** – Restrict traffic to HTTP/HTTPS; all other access is tightly controlled
 
 ### 🖥️ Compute & Storage
 
-- **VMs (Ubuntu 24.04)**: Host Apache for PHP apps
-- **Azure NetApp Files**: High-performance, shared NFS storage
-- **Azure Database for MySQL**: Managed DB service with backups and scaling
+- **Ubuntu 24.04 VMs** – Run Apache with PHP support
+- **Azure NetApp Files** – Shared NFS storage accessible by all web servers
+- **Azure Database for MySQL** – Managed MySQL with automated backups and scaling support
 
 ### 🔑 Secrets Management
 
-- **Azure Key Vault**: Stores app secrets and TLS certificates, integrated with Front Door and VMs
+- **Azure Key Vault** – Stores sensitive data like DB passwords and TLS certificates, with integration to Front Door and VMs
 
 ### 🔒 Network Isolation
 
-All components except Front Door are in private subnets—no direct internet exposure.
+All backend resources (VMs, DB, storage) are in private subnets. Only Azure Front Door is publicly accessible, enhancing security posture.
 
 ---
 
 ## 🔁 Connection Flow
 
-1. **User** accesses the app using HTTPS.
-2. **Azure Front Door** routes the request based on URL path.
-3. **Azure Load Balancer** sends the request to available VMs.
-4. **Web Servers (Apache)** serve app files from Azure NetApp Files.
-5. **App** connects to Azure Database for MySQL.
+1. Users access websites over HTTPS.
+2. Azure Front Door routes requests based on domain or path rules.
+3. Traffic is passed to the Azure Load Balancer.
+4. Load Balancer distributes it to the backend VM pool.
+5. Apache web servers read/write content from Azure NetApp Files.
+6. Web apps communicate with the Azure Database for MySQL.
 
 ```mermaid
 flowchart TD
@@ -88,3 +89,7 @@ flowchart TD
   VM1 --> DB[Azure MySQL]
   VM2 --> DB
 ```
+
+---
+
+🔜 **Next:** [Part 2 – Deploying Infrastructure with Terraform](../terraform/README.md)

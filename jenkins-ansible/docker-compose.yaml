@@ -1,8 +1,8 @@
 services:
   jenkins:
     restart: unless-stopped
-    image: crmichtyrvlwe01.azurecr.io/ci-cd-tools/jenkins:latest
-    container_name: new-jenkins
+    image: chinmaymjog/jenkins-ansible:latest
+    container_name: jenkins-ansible
     volumes:
       - ./jenkins-home:/var/lib/jenkins:rw
       - ./ansible:/etc/ansible:rw
