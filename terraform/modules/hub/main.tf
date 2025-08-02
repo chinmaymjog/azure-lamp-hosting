@@ -71,7 +71,7 @@ resource "azurerm_network_security_rule" "jenkis" {
   access                       = "Allow"
   protocol                     = "Tcp"
   source_port_range            = "*"
-  destination_port_range       = 8080
+  destination_port_ranges      = ["81", "8080", "8081"]
   source_address_prefixes      = var.ip_allow
   destination_address_prefixes = azurerm_network_interface.nic-vm.private_ip_addresses
   resource_group_name          = azurerm_resource_group.hub.name
