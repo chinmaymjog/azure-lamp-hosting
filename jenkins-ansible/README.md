@@ -100,7 +100,7 @@ docker compose up -d
 3. **Retrieve Initial Admin Password**
 
 ```bash
-docker exec jenkins-ansible cat /var/lib/jenkins/initialAdminPassword
+docker exec jenkins-ansible cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
 4. **Install Required Plugins**
@@ -115,23 +115,36 @@ docker exec jenkins-ansible cat /var/lib/jenkins/initialAdminPassword
 
 ### 🔗 Mount NetApp Volume
 
+Follow the official Microsoft guide to mount an Azure NetApp Files NFS volume:
+
+📘 **Recommended Steps:**
+[Mount an NFS share using the Azure portal (Ubuntu)](https://learn.microsoft.com/en-gb/azure/storage/files/storage-files-how-to-mount-nfs-shares?tabs=Ubuntu#mount-an-nfs-share-using-the-azure-portal-recommended)
+
+This includes:
+
+1. Installing NFS client tools on your Ubuntu VM
+2. Creating a mount point (e.g., `/netappwebsites`)
+3. Using the appropriate `mount` command or adding an entry to `/etc/fstab`
+
+Example:
 SSH into your web VMs from the Bastion host:
 
 ```bash
 ssh 10.0.2.4
+sudo apt-get install nfs-common
 ```
 
 Mount NetApp volume:
 
 ```bash
 sudo mkdir -p /netappwebsites
-sudo mount -t nfs 10.0.2.132:/str-pprd-inc /netappwebsites -o rw,hard,rsize=262144,wsize=262144,sec=sys,vers=4.1,tcp
+sudo mount -t nfs -o rw,hard,rsize=262144,wsize=262144,sec=sys,vers=4.1,tcp 10.0.2.132:/host-pprd-inc /netappwebsites
 ```
 
 Add to `/etc/fstab`:
 
 ```bash
-echo "10.0.2.132:/str-pprd-inc /netappwebsites nfs rw,hard,rsize=262144,wsize=262144,sec=sys,vers=4.1,tcp 0 0" | sudo tee -a /etc/fstab
+echo "10.0.2.132:/host-pprd-inc /netappwebsites nfs rw,hard,rsize=262144,wsize=262144,sec=sys,vers=4.1,tcp 0 0" | sudo tee -a /etc/fstab
 sudo systemctl daemon-reload
 sudo mount -a
 df -h
@@ -145,33 +158,62 @@ Repeat for all preprod/prod web VMs.
 
 ### 🔧 Create a Freestyle Project
 
-1. **New Job** → _Freestyle Project_
-2. **Add Parameters**
-   Enable “This project is parameterized”
+This is a simple example of how to create and configure a Jenkins job via the UI.
 
-- **Active Choices Parameter**
+#### 1. **Create a New Job**
 
-  - Name: `web_environment`
-  - Groovy: `return ['preproduction', 'production']`
+- Go to **New Item**
+- Select **Freestyle project**
+- Name your job appropriately
 
+#### 2. **Add Parameters**
+
+- Enable **"This project is parameterized"**
+- Add an **Active Choices Parameter**:
+
+  - **Name**: `web_environment`
+  - **Groovy Script**:
+
+    ```groovy
+    return ['preproduction', 'production']
+    ```
+
+📸 _Example:_
 ![Parameter Screenshot](./images/parameter.png)
 
-3. **Build Step** → _Execute Shell_
-   Add Ansible command:
+#### 3. **Add Build Step**
+
+- Under **Build**, choose **Execute shell**
+- Add the following Ansible command:
 
 ```bash
 sudo ansible-playbook --extra-vars "web_environment=${web_environment}" /etc/ansible/playbooks/ping.yml
 ```
 
-4. **Post-build Actions** → _Email Notification_
+#### 4. **Configure Post-Build Actions**
 
+- Enable **Email Notification** (if required)
+
+📸 _Examples:_
 ![Post Build Screenshot 1](./images/post_build_1.png)
 ![Post Build Screenshot 2](./images/post_build_2.png)
 
-5. **Run Job**
+#### 5. **Run the Job**
 
 - Click **Build with Parameters**
-- Choose environment and trigger the run
+- Select an environment from the dropdown
+- Click **Build** to trigger the pipeline
+
+---
+
+🗂 **Organize Your Jobs**
+
+For better structure, create the following folders in Jenkins:
+
+- `Administrative Tools`
+- `Hosting Management Portal`
+
+Refer to [playbooks.md](./docs/playbooks.md) for details on setting up individual playbooks and job configurations.
 
 ---
 

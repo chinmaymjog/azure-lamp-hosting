@@ -8,6 +8,13 @@ In this section, we automate the provisioning of the shared hosting platform’s
 
 ---
 
+## 🧱 Prerequisites
+
+1. An active [Azure account](https://azure.microsoft.com/en-us/free/)
+2. A [**Service Principal**](https://learn.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) with the **Contributor** role assigned to your [Azure subscription](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
+
+---
+
 ## 📁 Project Structure
 
 ```bash
