@@ -20,7 +20,7 @@ This approach gives DevOps teams and site operators a user-friendly Jenkins inte
 
 Ensure the following are ready before starting:
 
-- Bastion host deployed via [Part 2](../terraform/README.md)
+- Bastion host deployed via [Part 2](../terraform/README.md#-sample-output)
 - Jenkins and Docker configured
 - Ansible and SSH key setup completed
 - Backup volume mounted at `/backup`

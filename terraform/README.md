@@ -132,21 +132,31 @@ terraform apply
 Once complete, Terraform will display key outputs:
 
 ```
-Hub Resource Group Name         = rg-host-hub-inc
-Front Door Name                 = fd-host-hub-inc
-NetApp Account Name             = netapp-host-hub-inc
-Key Vault Name                  = kv-host-hub-inc
-ACR Login Server                = acrhosthubinc.azurecr.io
-Bastion VM Public IP            = XX.XX.XX.XX
-Bastion VM Private IP           = 10.0.0.4
+Hub Resource Group Name = rg-host-hub-inc
+Front Door Name = fd-host-hub-inc
+Netapp Account Name = netapp-host-hub-inc
+Netapp Pool Name = pool-host-hub-inc
+DNS Zone Name = host.mysql.database.azure.com
+Key Vault Name = kv-host-hub-inc
+Container Registry Login Server = acrhosthubinc.azurecr.io
+Container Registry Admin Username = acrhosthubinc
 
-Production Web VMs:
-  web-host-prd-inc-0           = 10.0.1.5
-  web-host-prd-inc-1           = 10.0.1.4
+Bastion VM Public IP = 135.235.XX.0
+Bastion VM Private IP = 10.0.0.4
 
-Preproduction Web VMs:
-  web-host-pprd-inc-0          = 10.0.2.4
-  web-host-pprd-inc-1          = 10.0.2.5
+Production Resource Group Name = rg-host-prd-inc
+Production MySQL server Name = mysql-host-prd-inc
+Production Load Balancer IP = 135.235.XX.22
+  Production Web Server Private IPs
+  web-host-prd-inc-0 = 10.0.1.5
+  web-host-prd-inc-1 = 10.0.1.4
+
+PreProduction Resource Group Name = rg-host-pprd-inc
+PreProduction MySQL server Name = mysql-host-pprd-inc
+PreProduction Load Balancer IP = 52.172.195.226
+  PreProduction Web Server Private IPs
+  web-host-pprd-inc-0 = 10.0.2.4
+  web-host-pprd-inc-1 = 10.0.2.5
 ```
 
 > 📁 A `hosts` file will also be generated—used as your **Ansible inventory** in Part 3.
