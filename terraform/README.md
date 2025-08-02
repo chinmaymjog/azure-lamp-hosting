@@ -4,7 +4,7 @@
 
 In this section, we automate the provisioning of the shared hosting platform’s Azure infrastructure using **Terraform**. The setup emphasizes modularity, scalability, security, and zone-aware deployment strategies.
 
-![Terraform Flow](../images/terraform-flow.png)
+![Terraform Flow](./images/terraform-flow.png)
 
 ---
 
