@@ -176,3 +176,5 @@ Preproduction Web VMs:
 All per-environment modules consume outputs from the `hub` module for seamless integration.
 
 ---
+
+🔜 **Next:** [Part 3: Jenkins-Ansible Automation for Webhost Platform](../jenkins-ansible/README.md)
