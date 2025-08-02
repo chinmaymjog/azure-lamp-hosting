@@ -19,6 +19,12 @@ The goal is to offer a semi-automated, self-service platform for infrastructure 
 ### Prerequisites
 
 - **Docker:** Ensure Docker is installed on the control node.
+
+```bash
+curl -fsSL https://test.docker.com -o test-docker.sh
+sudo sh test-docker.sh
+```
+
 - **Backup Storage:** The NFS or Azure Files mount must be available at `/backup`.
 - **SSH Access:** The Ansible control node must access target servers via SSH:
   - Private key: `~/.ssh/id_rsa`
@@ -40,9 +46,10 @@ The goal is to offer a semi-automated, self-service platform for infrastructure 
 
 1. **Clone the Repository and Start Jenkins:**
    ```bash
-   cd /data/new-jenkins-ansible
+   mkdir -p /data/jenkins-ansible
+   cd /data/jenkins-ansible
    mkdir jenkins-home site-data
-   git clone https://github.com/yourname/your-repository.git .
+   git clone https://github.com/chinmaymjog/azure-lamp-hostingwebadmin .
    chmod 777 jenkins-home
    docker compose up -d
    ```
