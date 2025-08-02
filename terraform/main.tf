@@ -17,6 +17,7 @@ module "hub" {
   ip_allow              = var.ip_allow
   netapp_sku            = var.netapp_sku
   netapp_pool_size_intb = var.netapp_pool_size_intb
+  file_share_quota      = var.file_share_quota
 }
 
 module "preprod-web" {

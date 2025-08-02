@@ -238,6 +238,31 @@ resource "azurerm_cdn_frontdoor_origin_group" "preprod_origin_group" {
     successful_samples_required        = 3
   }
 }
+### Azure File Storage
+resource "azurerm_storage_account" "storage" {
+  name                     = "st${var.p_short}${var.e_short}${var.l_short}"
+  resource_group_name      = azurerm_resource_group.hub.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  min_tls_version          = "TLS1_2"
+  is_hns_enabled           = true
+  lifecycle {
+    ignore_changes = [tags]
+  }
+  network_rules {
+    default_action             = "Deny"
+    ip_rules                   = var.ip_allow
+    bypass                     = ["AzureServices"]
+    virtual_network_subnet_ids = [azurerm_subnet.web.id]
+  }
+}
+
+resource "azurerm_storage_share" "file_share" {
+  name               = "backup"
+  storage_account_id = azurerm_storage_account.storage.id
+  quota              = var.file_share_quota
+}
 
 ### Azure Netapp Files
 resource "azurerm_netapp_account" "netapp_account" {
@@ -325,4 +350,15 @@ resource "azurerm_key_vault_secret" "key" {
   name         = "sshkey"
   value        = replace(file("${path.root}/webadmin_rsa"), "/\n/", "\n")
   key_vault_id = azurerm_key_vault.kv.id
+}
+
+resource "azurerm_container_registry" "acr" {
+  name                = "acr${var.p_short}${var.e_short}${var.l_short}"
+  resource_group_name = azurerm_resource_group.hub.name
+  location            = var.location
+  sku                 = "Basic"
+  admin_enabled       = true
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }

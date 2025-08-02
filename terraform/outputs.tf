@@ -7,6 +7,9 @@ Netapp Account Name = ${module.hub.netapp_account_name}
 Netapp Pool Name = ${module.hub.netapp_pool_name}
 DNS Zone Name = ${module.hub.dns_zone_name}
 Key Vault Name = ${module.hub.key_vault_name}
+Container Registry Login Server = ${module.hub.container_registry_login_server}
+Container Registry Admin Username = ${module.hub.container_registry_admin_username}
+
 Bastion VM Public IP = ${module.hub.vm_ip}
 Bastion VM Private IP = ${module.hub.vm_private_ip}
 

@@ -98,6 +98,10 @@ variable "storage_quota_in_gb" {
   description = "Netapp volume size in GB"
 }
 
+variable "file_share_quota" {
+  description = "File share quota in GB"
+}
+
 # ## Environment variables for preproduction
 variable "preprod_vnet_space" {
   description = "Address space for vnet"

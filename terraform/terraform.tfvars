@@ -15,6 +15,7 @@ bastion_osdisk        = 64             # Bastion OS disk (in GB)
 bastion_datadisk      = 64             # Bastion Data disk (in GB)
 netapp_sku            = "Standard"     # NetApp Storage SKU
 netapp_pool_size_intb = 1              # NetApp Pool size (in TB)
+file_share_quota      = 100            # File share quota (in GB)
 
 ## Web Environment (Shared Across PreProd & Prod)
 webvm_size          = "Standard_B2s"         # Web Server VM SKU

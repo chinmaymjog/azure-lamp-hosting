@@ -61,3 +61,15 @@ output "vm_ip" {
 output "vm_private_ip" {
   value = azurerm_linux_virtual_machine.vm.private_ip_address
 }
+
+output "storage_account_name" {
+  value = azurerm_storage_account.storage.name
+}
+
+output "container_registry_login_server" {
+  value = azurerm_container_registry.acr.login_server
+}
+
+output "container_registry_admin_username" {
+  value = azurerm_container_registry.acr.admin_username
+}

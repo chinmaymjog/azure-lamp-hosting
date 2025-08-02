@@ -61,3 +61,7 @@ variable "netapp_sku" {
 variable "netapp_pool_size_intb" {
   description = "Netapp pool size in TB"
 }
+
+variable "file_share_quota" {
+  description = "File share quota in GB"
+}
