@@ -49,7 +49,10 @@ cd terraform
 ssh -i webadmin_rsa webadmin@<Bastion_VM_Public_IP>
 curl -fsSL https://test.docker.com -o test-docker.sh
 sudo sh test-docker.sh
+sudo usermod -aG docker webadmin
 ```
+
+Log out & login
 
 2. **Mount Backup Storage** at `/backup`
    Follow [this Azure guide](https://learn.microsoft.com/en-gb/azure/storage/files/storage-files-how-to-mount-nfs-shares?tabs=Ubuntu#mount-an-nfs-share-using-the-azure-portal-recommended).
@@ -58,7 +61,7 @@ sudo sh test-docker.sh
 3. **Prepare Backup Directory Structure**
 
 ```bash
-mkdir -p /backup/webhost/{preproduction,production}/{apache_conf_backup,database_backup,site_config_backup}
+sudo mkdir -p /backup/webhost/{preproduction,production}/{apache_conf_backup,database_backup,site_config_backup}
 ```
 
 4. **Verify User Access**
@@ -66,6 +69,14 @@ mkdir -p /backup/webhost/{preproduction,production}/{apache_conf_backup,database
 Ensure `webadmin` exists on all servers with passwordless `sudo`.
 
 > **Note:** This is automatically handled during Terraform provisioning.
+
+5. **Mount data disk at `/data`**
+
+```bash
+wget https://raw.githubusercontent.com/chinmaymjog/azure-lamp-hosting/main/scripts/datadisk_lvm.sh
+chmod +x datadisk_lvm.sh
+./datadisk_lvm.sh
+```
 
 ---
 
@@ -79,11 +90,12 @@ sudo git clone https://github.com/chinmaymjog/azure-lamp-hosting .
 cd /data/jenkins-ansible
 sudo mkdir jenkins-home site-data
 sudo chmod 777 jenkins-home
+docker network create shared
 docker compose up -d
 ```
 
 2. **Access Jenkins UI**
-   Visit: `http://<Bastion_VM_Public_IP>:8082`
+   Visit: `http://<Bastion_VM_Public_IP>:8081`
 
 3. **Retrieve Initial Admin Password**
 
