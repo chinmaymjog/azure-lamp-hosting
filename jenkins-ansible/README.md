@@ -1,7 +1,8 @@
 # Part 3: Jenkins-Ansible Automation for Webhost Platform
 
-In this post, we integrate **Ansible** automation with **Jenkins** to build a self-service platform for managing web infrastructure—covering tasks like provisioning, site management, and backups.
+## 📘 Introduction
 
+In this section, we integrate **Ansible** automation with **Jenkins** to build a self-service platform for managing web infrastructure—covering tasks like provisioning, site management, and backups.
 This approach gives DevOps teams and site operators a user-friendly Jenkins interface, while Ansible does the heavy lifting in the background.
 
 ---
@@ -108,6 +109,20 @@ docker exec jenkins-ansible cat /var/lib/jenkins/secrets/initialAdminPassword
 - Active Choices Plug-in
 - Environment Injector
 - ThinBackup
+
+---
+
+### 5. **Ansible Playbook Database Variables**
+
+Create the file `/data/jenkins-ansible/playbooks/database_vars.yml` from the template `database_vars-template.yml`:
+
+```bash
+docker exec -it jenkins-ansible ansible-vault create /data/jenkins-ansible/playbooks/database_vars.yml
+docker exec -it jenkins-ansible bash -c 'echo "<PASSWORD>" > /etc/ansible/vault.txt'
+```
+
+- This file stores the **database credentials** used by Ansible playbooks to interact with the database.
+- Make sure to save the vault password in `/etc/ansible/vault.txt`. This allows Ansible to decrypt and use the credentials automatically when running playbooks. e.g. [here](./docs/playbooks.md#backup_databases).
 
 ---
 
