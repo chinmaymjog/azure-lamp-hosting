@@ -171,6 +171,8 @@ Repeat for all preprod/prod web VMs.
 
 ## 🛠 Jenkins Job Configuration
 
+> **Note:** While adding jobs in Jenkins refer [jenkinas-jobs-playbooks.md](./docs/jenkinas-jobs-playbooks.md) to add jobs.
+
 ### 🔧 Create a Freestyle Project
 
 This is a simple example of how to create and configure a Jenkins job via the UI.
@@ -234,7 +236,7 @@ Refer to [jenkinas-jobs-playbooks.md](./docs/jenkinas-jobs-playbooks.md) for det
 
 ## 📘 Ansible Playbooks Reference
 
-Here's a catalog of available playbooks and their Jenkins integration:
+## Here's a catalog of available playbooks and their Jenkins integration:
 
 | Playbook                                                                         | Usage                                                                                  |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
