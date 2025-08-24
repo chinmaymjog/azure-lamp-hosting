@@ -122,7 +122,7 @@ docker exec -it jenkins-ansible bash -c 'echo "<PASSWORD>" > /etc/ansible/vault.
 ```
 
 - This file stores the **database credentials** used by Ansible playbooks to interact with the database.
-- Make sure to save the vault password in `/etc/ansible/vault.txt`. This allows Ansible to decrypt and use the credentials automatically when running playbooks. e.g. [here](./docs/playbooks.md#backup_databases).
+- Make sure to save the vault password in `/etc/ansible/vault.txt`. This allows Ansible to decrypt and use the credentials automatically when running playbooks. e.g. [here](./docs/jenkinas-jobs-playbooks.md#backup_databases).
 
 ---
 
@@ -228,7 +228,7 @@ For better structure, create the following folders in Jenkins:
 - `Administrative Tools`
 - `Hosting Management Portal`
 
-Refer to [playbooks.md](./docs/playbooks.md) for details on setting up individual playbooks and job configurations.
+Refer to [jenkinas-jobs-playbooks.md](./docs/jenkinas-jobs-playbooks.md) for details on setting up individual playbooks and job configurations.
 
 ---
 
@@ -236,30 +236,38 @@ Refer to [playbooks.md](./docs/playbooks.md) for details on setting up individua
 
 Here's a catalog of available playbooks and their Jenkins integration:
 
-| Playbook                                                                         | Usage                                                                    |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [server_hardening.yml](./ansible/playbooks/server_hardening.yml)                 | [server_hardening](./docs/playbooks.md#server_hardening)                 |
-| [server_web_configuration.yml](./ansible/playbooks/server_web_configuration.yml) | [server_web_configuration](./docs/playbooks.md#server_web_configuration) |
-| [php_install.yml](./ansible/playbooks/php_install.yml)                           | [php_install](./docs/playbooks.md#php_install)                           |
-| [php_site_add.yml](./ansible/playbooks/php_site_add.yml)                         | [site_add](./docs/playbooks.md#site_add)                                 |
-| [php_site_enable.yml](./ansible/playbooks/php_site_enable.yml)                   | [site_enable](./docs/playbooks.md#site_enable)                           |
-| [php_site_disable.yml](./ansible/playbooks/php_site_disable.yml)                 | [site_disable](./docs/playbooks.md#site_disable)                         |
-| [php_site_remove.yml](./ansible/playbooks/php_site_remove.yml)                   | [site_remove](./docs/playbooks.md#site_remove)                           |
-| [html_site_add.yml](./ansible/playbooks/html_site_add.yml)                       | [site_add](./docs/playbooks.md#site_add)                                 |
-| [html_site_enable.yml](./ansible/playbooks/html_site_enable.yml)                 | [site_enable](./docs/playbooks.md#site_enable)                           |
-| [html_site_disable.yml](./ansible/playbooks/html_site_disable.yml)               | [site_disable](./docs/playbooks.md#site_disable)                         |
-| [html_site_remove.yml](./ansible/playbooks/html_site_remove.yml)                 | [site_remove](./docs/playbooks.md#site_remove)                           |
-| [http_auth_add.yml](./ansible/playbooks/http_auth_add.yml)                       | [http_auth_add](./docs/playbooks.md#http_auth_add)                       |
-| [http_auth_enable.yml](./ansible/playbooks/http_auth_enable.yml)                 | [http_auth_enable](./docs/playbooks.md#http_auth_enable)                 |
-| [http_auth_disable.yml](./ansible/playbooks/http_auth_disable.yml)               | [http_auth_disable](./docs/playbooks.md#http_auth_disable)               |
-| [site_list.yml](./ansible/playbooks/site_list.yml)                               | [site_list](./docs/playbooks.md#site_list)                               |
-| [backup_apache_config.yml](./ansible/playbooks/backup_apache_config.yml)         | [backup_apache_config](./docs/playbooks.md#backup_apache_config)         |
-| [backup_site_config.yml](./ansible/playbooks/backup_site_config.yml)             | [backup_site_config](./docs/playbooks.md#backup_site_config)             |
-| [backup_databases.yml](./ansible/playbooks/backup_databases.yml)                 | [backup_databases](./docs/playbooks.md#backup_databases)                 |
-| [db_dump.yml](./ansible/playbooks/db_dump.yml)                                   | [db_dump](./docs/playbooks.md#db_dump)                                   |
-| [generate_csr.yml](./ansible/playbooks/generate_csr.yml)                         | [generate_csr](./docs/playbooks.md#generate_csr)                         |
-| [generate_pfx.yml](./ansible/playbooks/generate_pfx.yml)                         | [generate_pfx](./docs/playbooks.md#generate_pfx)                         |
-| [ping.yml](./ansible/playbooks/ping.yml)                                         | [ping](./docs/playbooks.md#ping)                                         |
+| Playbook                                                                         | Usage                                                                                  |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [server_hardening.yml](./ansible/playbooks/server_hardening.yml)                 | [server_hardening](./docs/jenkinas-jobs-playbooks.md#server_hardening)                 |
+| [server_web_configuration.yml](./ansible/playbooks/server_web_configuration.yml) | [server_web_configuration](./docs/jenkinas-jobs-playbooks.md#server_web_configuration) |
+| [php_install.yml](./ansible/playbooks/php_install.yml)                           | [php_install](./docs/jenkinas-jobs-playbooks.md#php_install)                           |
+| [php_site_add.yml](./ansible/playbooks/php_site_add.yml)                         | [site_add](./docs/jenkinas-jobs-playbooks.md#site_add)                                 |
+| [php_site_enable.yml](./ansible/playbooks/php_site_enable.yml)                   | [site_enable](./docs/jenkinas-jobs-playbooks.md#site_enable)                           |
+| [php_site_disable.yml](./ansible/playbooks/php_site_disable.yml)                 | [site_disable](./docs/jenkinas-jobs-playbooks.md#site_disable)                         |
+| [php_site_remove.yml](./ansible/playbooks/php_site_remove.yml)                   | [site_remove](./docs/jenkinas-jobs-playbooks.md#site_remove)                           |
+| [html_site_add.yml](./ansible/playbooks/html_site_add.yml)                       | [site_add](./docs/jenkinas-jobs-playbooks.md#site_add)                                 |
+| [html_site_enable.yml](./ansible/playbooks/html_site_enable.yml)                 | [site_enable](./docs/jenkinas-jobs-playbooks.md#site_enable)                           |
+| [html_site_disable.yml](./ansible/playbooks/html_site_disable.yml)               | [site_disable](./docs/jenkinas-jobs-playbooks.md#site_disable)                         |
+| [html_site_remove.yml](./ansible/playbooks/html_site_remove.yml)                 | [site_remove](./docs/jenkinas-jobs-playbooks.md#site_remove)                           |
+| [http_auth_add.yml](./ansible/playbooks/http_auth_add.yml)                       | [http_auth_add](./docs/jenkinas-jobs-playbooks.md#http_auth_add)                       |
+| [http_auth_enable.yml](./ansible/playbooks/http_auth_enable.yml)                 | [http_auth_enable](./docs/jenkinas-jobs-playbooks.md#http_auth_enable)                 |
+| [http_auth_disable.yml](./ansible/playbooks/http_auth_disable.yml)               | [http_auth_disable](./docs/jenkinas-jobs-playbooks.md#http_auth_disable)               |
+| [site_list.yml](./ansible/playbooks/site_list.yml)                               | [site_list](./docs/jenkinas-jobs-playbooks.md#site_list)                               |
+| [backup_apache_config.yml](./ansible/playbooks/backup_apache_config.yml)         | [backup_apache_config](./docs/jenkinas-jobs-playbooks.md#backup_apache_config)         |
+| [backup_site_config.yml](./ansible/playbooks/backup_site_config.yml)             | [backup_site_config](./docs/jenkinas-jobs-playbooks.md#backup_site_config)             |
+| [backup_databases.yml](./ansible/playbooks/backup_databases.yml)                 | [backup_databases](./docs/jenkinas-jobs-playbooks.md#backup_databases)                 |
+| [db_dump.yml](./ansible/playbooks/db_dump.yml)                                   | [db_dump](./docs/jenkinas-jobs-playbooks.md#db_dump)                                   |
+| [generate_csr.yml](./ansible/playbooks/generate_csr.yml)                         | [generate_csr](./docs/jenkinas-jobs-playbooks.md#generate_csr)                         |
+| [generate_pfx.yml](./ansible/playbooks/generate_pfx.yml)                         | [generate_pfx](./docs/jenkinas-jobs-playbooks.md#generate_pfx)                         |
+| [ping.yml](./ansible/playbooks/ping.yml)                                         | [ping](./docs/jenkinas-jobs-playbooks.md#ping)                                         |
+
+---
+
+Once you followed & setup all jobs, you will have jenkins jobs structure like this:
+
+![Dashboard](./images/dashboard.png)
+![Administrative Tools](./images/administrative_tools.png)
+![Hosting Management Portal](./images/hosting_management_portal.png)
 
 ---
 

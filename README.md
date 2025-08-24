@@ -23,10 +23,10 @@ This project is structured into multiple parts, each with its own GitHub directo
 - [Part 1: Shared Hosting Platform Architecture](./docs/Part_1.md)
 - [Part 2: Terraform – Deploying Azure Infrastructure](./terraform/README.md)
 - [Part 3: Jenkins-Ansible Automation for Webhost Platform](./jenkins-ansible/README.md)
+- [Part 4: Ansible Jobs in the Web Hosting Platform](./jenkins-ansible/docs/jenkins-jobs.md)
 
 ### ⏳ Upcoming Modules
 
-- [Part 4: Ansible – Web and Database Server Configuration](#)
 - [Part 5: GitLab CI/CD – Automating App Deployments](#)
 - [Part 6: Monitoring & Logging](#)
 
